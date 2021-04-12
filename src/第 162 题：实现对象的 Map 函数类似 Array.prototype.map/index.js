@@ -7,5 +7,5 @@ function map(obj, fn) {
     return result;
 }
 Object.prototype.map = function (fn) {
-    map.call(null, this, fn);
+    return map.call(null, this, fn);
 };
