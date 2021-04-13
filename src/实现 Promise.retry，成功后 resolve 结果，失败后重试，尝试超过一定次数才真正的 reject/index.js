@@ -13,6 +13,23 @@ Promise.retry = function (fn, num = 1) {
         }
     });
 };
+Promise.retry = function (fn, num = 1) {
+    return new Promise(async (resolve, reject) => {
+        function run() {
+            fn()
+                .then(res => {
+                    console.log(res);
+                    resolve(res);
+                })
+                .catch(error => {
+                    console.log(error);
+                    if (--num === 0) reject(error);
+                    else run();
+                });
+        }
+        run();
+    });
+};
 function test() {
     const n = Math.random();
     return new Promise((resolve, reject) => {
