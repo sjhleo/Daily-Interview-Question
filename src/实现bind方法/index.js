@@ -35,6 +35,10 @@ Function.prototype.bind = function (thisArg, ...params) {
     function F() {}
     F.prototype = fn.prototype;
     result.prototype = new F();
+    // 这种更接近实际的bind函数
+    // 这种写法 下面的示例 f2.__proto__ === func.prototype;
+    // 上面这种写法 f2.__proto__.__proto__ === func.prototype
+    // result.prototype = fn.prototype;
     return result;
 };
 // 这样的结果
@@ -42,5 +46,7 @@ let func = function() {console.log(this.a)};
 let f1 = func.bind({a: 123});
 let f2 = new f1();
 f2.__proto__ === f1.prototype; //  true
-f1.prototype.__proto__ === func.prototype //true 
+f2.__proto__.__proto__ === func.prototype //true 
 // 这样就能满足使用f1 new出来的对象是func类型的
+// 实际的bind函数
+f2.__proto__ === func.prototype;
